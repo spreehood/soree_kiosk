@@ -1,0 +1,5 @@
+require 'spree_core'
+require 'spree_extension'
+require 'spree_kiosk/engine'
+require 'spree_kiosk/version'
+require 'spree_kiosk/configuration'
