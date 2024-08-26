@@ -1,7 +1,7 @@
 module Spree
   class Display < ActiveRecord::Base
-    has_many :display_product
-    has_many :product, through: :display_product, class_name: 'Spree::Product'
+    has_many :display_products
+    has_many :products, through: :display_product, class_name: 'Spree::Product'
 
     before_validation :set_default_screen_size
 
