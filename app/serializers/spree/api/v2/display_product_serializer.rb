@@ -4,7 +4,7 @@ module Spree
       class DisplayProductSerializer < BaseSerializer
         attributes :id, :product_id, :display_id, :qr_code_url, :video_url
 
-         has_one :product
+        #  has_one :product
       end
     end
   end
