@@ -20,7 +20,7 @@ module Spree
       case display_type
       when 'kiosk'
         '65x65'
-      when 'mobile'
+      when 'bag'
         '360x640'
       else
         '800x600'
