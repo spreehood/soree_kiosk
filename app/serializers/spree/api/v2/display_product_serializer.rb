@@ -6,7 +6,7 @@ module Spree
 
         attributes :id, :display_id, :qr_code_url, :video_url
 
-         has_one :product
+         has_one :product, serializer: Spree::V2::Storefront::ProductSerializer
       end
     end
   end
