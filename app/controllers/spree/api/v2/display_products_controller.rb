@@ -4,8 +4,8 @@ module Spree
   module Api
     module V2
       class DisplayProductsController < Spree::Api::V2::ResourceController
-        before_action :require_spree_current_user
         before_action :load_display
+        before_action :require_spree_current_user, only: [:create, :update, :destroy]
 
         def index
           render_serialized_payload { serialize_resource(collection) }

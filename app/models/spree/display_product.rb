@@ -6,7 +6,7 @@ module Spree
     belongs_to :product
 
     after_save :append_to_products_array
-    after_destory :remove_from_products_array
+    after_destroy :remove_from_products_array
 
     validates :display, presence: true
 
