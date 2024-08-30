@@ -4,7 +4,6 @@ module Spree
     has_many :products, through: :display_product, class_name: 'Spree::Product'
 
     before_validation :set_default_screen_size
-    before_validation :set_default_active, on: :create
 
     validates :name, presence: true
     validates :orientation, presence: true
@@ -27,10 +26,5 @@ module Spree
         '800x600'
       end
     end
-
-    def set_default_active
-      self.active ||= false
-    end
-
   end
 end
