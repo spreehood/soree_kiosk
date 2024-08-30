@@ -4,11 +4,13 @@ module Spree
   module Api
     module V2
       class DisplayProductsController < Spree::Api::V2::ResourceController
+        include Spree::Api::V2::CollectionOptionsHelpers
         before_action :load_display
         before_action :require_spree_current_user, only: [:create, :update, :destroy]
 
+
         def index
-          render_serialized_payload { serialize_resource(collection) }
+          render_serialized_payload { serialize_resource(paginated_collection) }
         end
 
         def create
@@ -46,6 +48,10 @@ module Spree
         def collection
           @collection ||= @display.display_products.ordered_by_products_array(@display.products_array)
         end
+
+         def paginated_collection
+            collection_paginator.new(collection, params).call
+          end
 
         def resource_serializer
           Spree::Api::V2::DisplayProductSerializer
