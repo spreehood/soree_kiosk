@@ -27,5 +27,5 @@ Gem::Specification.new do |s|
   # s.add_dependency 'spree_frontend', spree_version
   s.add_dependency 'spree_core', spree_version
   s.add_dependency 'spree_extension'
-
+  s.add_dependency 'rqrcode', '~> 2.0'
 end
