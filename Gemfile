@@ -5,21 +5,9 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+spree_version = '>= 4.5'
+gem 'spree', spree_version
+gem 'spree_auth_devise', spree_version
 gem 'rails-controller-testing'
-
-spree_opts = { github: 'spree/spree', branch: 'main' }
-gem 'spree', spree_opts
-gem 'spree_emails', spree_opts
-
-gem 'spree_backend', github: 'spree/spree_backend', branch: 'main'
-gem 'spree_frontend', github: 'spree/spree_rails_frontend', branch: 'main'
-
-if ENV['DB'] == 'mysql'
-  gem 'mysql2'
-elsif ENV['DB'] == 'postgres'
-  gem 'pg'
-else
-  gem 'sqlite3', '~> 1.4'
-end
 
 gemspec
