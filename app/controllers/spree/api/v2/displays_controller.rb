@@ -3,10 +3,11 @@ module Spree
     module V2
       class DisplaysController < ::Spree::Api::V2::ResourceController
         before_action :load_display, only: [:show, :update, :destroy]
-        before_action :require_spree_current_user
+        before_action :require_spree_current_user, only: [:create, :update, :destroy]
 
         def index
-          @displays = Spree::Display.all
+          @displays = Spree::Display.order(active: :desc)
+          
           render_serialized_payload { serialize_resource(@displays) }
         end
 

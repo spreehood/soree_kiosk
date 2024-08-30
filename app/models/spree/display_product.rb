@@ -6,6 +6,7 @@ module Spree
     belongs_to :product
 
     after_save :append_to_products_array
+    after_destroy :remove_from_products_array
 
     validates :display, presence: true
 
@@ -20,5 +21,11 @@ module Spree
       display.products_array.append(id) unless display.products_array.include?(id)
       display.save!
     end
+
+    def remove_from_products_array
+      display.products_array.delete(id) if display.products_array.include?(id)
+      display.save!
+    end
+
   end
 end
