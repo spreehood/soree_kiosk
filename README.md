@@ -16,6 +16,10 @@ This is a Kiosk extension for [Spree Commerce](https://spreecommerce.org), an op
     bundle exec rails g spree_kiosk:install
     ```
 
+4. Add value for STOREFRONT_URL in your .env file for the generation of the qr code
+
+    STOREFRONT_URL=https://store.truemark.com
+
 3. Restart your server
 
   If your server was running, restart it so that it can find the assets properly.
