@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.summary     = "Spree Commerce Kiosk Extension"
   s.required_ruby_version = '>= 3.0'
 
-  s.author    = 'You'
-  s.email     = 'you@example.com'
+  s.author    = 'truemark'
+  s.email     = 'sushil@truemark.com.np'
   s.homepage  = 'https://github.com/your-github-handle/spree_kiosk'
   s.license = 'BSD-3-Clause'
 
@@ -20,8 +20,12 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.requirements << 'none'
 
-  s.add_dependency 'spree', '>= 4.9.0'
+  spree_version = '>= 4.5'
+  s.add_dependency 'deface', '~> 1.0'
+  s.add_dependency 'spree_api', spree_version
+  s.add_dependency 'spree_backend', spree_version
+  # s.add_dependency 'spree_frontend', spree_version
+  s.add_dependency 'spree_core', spree_version
   s.add_dependency 'spree_extension'
-
-  s.add_development_dependency 'spree_dev_tools'
+  s.add_dependency 'rqrcode', '~> 2.0'
 end
