@@ -6,7 +6,7 @@ module Spree
       class DisplayProductsController < Spree::Api::V2::ResourceController
         include Spree::Api::V2::CollectionOptionsHelpers
         before_action :load_display
-        before_action :require_spree_current_user, :require_display_access, only: [:create, :update, :destroy]
+        before_action :require_spree_current_user, :require_display_access, only: [:create, :destroy]
 
         def index
           render_serialized_payload { serialize_resource(paginated_collection) }
