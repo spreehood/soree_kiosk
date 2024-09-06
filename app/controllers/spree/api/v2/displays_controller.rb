@@ -2,8 +2,8 @@ module Spree
   module Api
     module V2
       class DisplaysController < ::Spree::Api::V2::ResourceController
-        before_action :require_spree_current_user
-        before_action :load_vendor, :require_vendor_access
+        before_action :load_vendor
+        before_action :require_spree_current_user, :require_vendor_access, only: [:create, :update, :destroy]
         before_action :load_display, only: [:show, :update, :destroy]
 
         def index
