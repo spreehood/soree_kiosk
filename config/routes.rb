@@ -7,6 +7,7 @@ Spree::Core::Engine.add_routes do
 
       resources :displays, only: [] do
         resources :display_products, only: [:index, :create, :destroy]
+        resources :products, only: [:index]
       end
     end
   end
