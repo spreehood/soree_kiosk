@@ -2,11 +2,12 @@ module Spree
   module Api
     module V2
       class DisplaysController < ::Spree::Api::V2::ResourceController
+        before_action :load_vendor
+        before_action :require_spree_current_user, :require_vendor_access, only: [:create, :update, :destroy]
         before_action :load_display, only: [:show, :update, :destroy]
-        before_action :require_spree_current_user, only: [:create, :update, :destroy]
 
         def index
-          @displays = Spree::Display.order(active: :desc)
+          @displays = @vendor.displays.order(active: :desc)
           
           render_serialized_payload { serialize_resource(@displays) }
         end
@@ -16,7 +17,7 @@ module Spree
         end
 
         def create
-          @display = Spree::Display.new(display_params)
+          @display = @vendor.displays.new(display_params)
 
           if @display.save
             render_serialized_payload { serialize_resource(@display) }
@@ -26,8 +27,6 @@ module Spree
         end
 
         def update
-          display = Spree::Display.find(params[:id])
-          
           if @display.update(display_params)
             render_serialized_payload { serialize_resource(@display) }
           else
@@ -36,9 +35,7 @@ module Spree
         end
 
         def destroy
-          display = Spree::Display.find(params[:id])
-
-          if display.destroy
+          if @display.destroy
             render_serialized_payload { serialize_resource(display) }
           else
             render_error_payload(display.errors)
@@ -48,7 +45,7 @@ module Spree
         private
 
         def load_display
-          @display = Spree::Display.find(params[:id])
+          @display = @vendor.displays.find(params[:id])
         end
 
         def display_params
@@ -65,6 +62,16 @@ module Spree
 
         def collection_serializer
           Spree::Api::V2::DisplaySerializer
+        end
+
+        def load_vendor
+          @vendor ||= Spree::Vendor.find(params[:vendor_id])
+        end
+
+        def require_vendor_access
+          return if @vendor.users.include?(spree_current_user)
+
+          render_error_payload('You do not have permission to access this vendor', 401)
         end
       end
     end
