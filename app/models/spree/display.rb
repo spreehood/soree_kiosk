@@ -45,7 +45,9 @@ module Spree
       io = StringIO.new(png.to_s)
       qr_code_image.attach(io: io, filename: "qr_display_#{id}.png", content_type: 'image/png')
 
-      update(qr_code_url: qr_code_image.url)
+      public_url = Rails.application.routes.url_helpers.rails_blob_path(qr_code_image, only_path: true)
+
+      update(qr_code_url: public_url)
     end
   end
 end

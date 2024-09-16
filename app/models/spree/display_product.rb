@@ -2,7 +2,6 @@
 
 module Spree
   class DisplayProduct < ActiveRecord::Base
-    include Rails.application.routes.url_helpers
     include Spree::Core::Engine.routes.url_helpers
     require 'rqrcode'
 
@@ -39,25 +38,26 @@ module Spree
     end
 
 
-    def generate_qr_code
-      return if qr_code_image.attached?
+      def generate_qr_code
+        return if qr_code_image.attached?
 
-      product_storefront_url = if ENV['STOREFRONT_URL']
-                                 "#{ENV['STOREFRONT_URL']}/products/#{product.slug}?display_id=#{display.id}"
-                               else
-                                 product_url(product.slug, host: Rails.application.routes.default_url_options[:host], display_id: display.id)
-                               end
+        product_storefront_url = if ENV['STOREFRONT_URL']
+                                  "#{ENV['STOREFRONT_URL']}/products/#{product.slug}?display_id=#{display.id}"
+                                else
+                                  product_url(product.slug, host: Rails.application.routes.default_url_options[:host], display_id: display.id)
+                                end
 
-      qrcode = RQRCode::QRCode.new(product_storefront_url)
+        qrcode = RQRCode::QRCode.new(product_storefront_url)
+        png = qrcode.as_png(size: 300)
 
-      png = qrcode.as_png(size: 300)
+        io = StringIO.new(png.to_s)
+        qr_code_image.attach(io: io, filename: "qr_product_#{id}.png", content_type: 'image/png')
 
-      io = StringIO.new(png.to_s)
-      qr_code_image.attach(io: io, filename: "qr_product_#{id}.png", content_type: 'image/png')
+        # Generate the URL for the attached image
+        public_url = Rails.application.routes.url_helpers.rails_blob_path(qr_code_image, only_path: true)
 
-      public_url = rails_blob_url(qr_code_image, only_path: true)
+        update(qr_code_url: public_url)
+      end
 
-      update(qr_code_url: public_url.url)
-    end
   end
 end
