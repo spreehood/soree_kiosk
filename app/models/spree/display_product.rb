@@ -3,8 +3,8 @@
 module Spree
   class DisplayProduct < ActiveRecord::Base
     include Rails.application.routes.url_helpers
-    require 'rqrcode'
     include Spree::Core::Engine.routes.url_helpers
+    require 'rqrcode'
 
     belongs_to :display
     belongs_to :product
@@ -55,7 +55,7 @@ module Spree
       io = StringIO.new(png.to_s)
       qr_code_image.attach(io: io, filename: "qr_product_#{id}.png", content_type: 'image/png')
 
-       public_url = rails_blob_url(qr_code_image, only_path: true)
+      public_url = rails_blob_url(qr_code_image, only_path: true)
 
       update(qr_code_url: public_url.url)
     end
