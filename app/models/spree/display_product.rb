@@ -2,8 +2,8 @@
 
 module Spree
   class DisplayProduct < ActiveRecord::Base
-    require 'rqrcode'
     include Spree::Core::Engine.routes.url_helpers
+    require 'rqrcode'
 
     belongs_to :display
     belongs_to :product
@@ -42,19 +42,16 @@ module Spree
       return if qr_code_image.attached?
 
       product_storefront_url = if ENV['STOREFRONT_URL']
-                                 "#{ENV['STOREFRONT_URL']}/products/#{product.slug}?display_id=#{display.id}"
-                               else
-                                 product_url(product.slug, host: Rails.application.routes.default_url_options[:host], display_id: display.id)
-                               end
+                                "#{ENV['STOREFRONT_URL']}/products/#{product.slug}?display_id=#{display.id}"
+                              else
+                                product_url(product.slug, host: Rails.application.routes.default_url_options[:host], display_id: display.id)
+                              end
 
       qrcode = RQRCode::QRCode.new(product_storefront_url)
-
       png = qrcode.as_png(size: 300)
 
       io = StringIO.new(png.to_s)
       qr_code_image.attach(io: io, filename: "qr_product_#{id}.png", content_type: 'image/png')
-
-      update(qr_code_url: qr_code_image.url)
     end
   end
 end
